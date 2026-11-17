@@ -1,0 +1,8 @@
+package br.com.fiap.pedro.api.dto;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+public record ErroResponse(LocalDateTime timestamp, int status, String erro, String mensagem,
+                           Map<String, String> campos) {
+}

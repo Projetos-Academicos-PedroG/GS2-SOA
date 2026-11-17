@@ -1,0 +1,44 @@
+### Roteiro de demonstração (IntelliJ HTTP Client / VS Code REST Client)
+@base = http://localhost:8080
+
+### 1. Avaliar risco na Av. Paulista (área com ocorrências no seed)
+POST {{base}}/api/alertas/avaliar
+Content-Type: application/json
+
+{ "latitude": -23.5610, "longitude": -46.6565, "usuarioId": 1 }
+
+### 2. Avaliar risco em área sem ocorrências
+POST {{base}}/api/alertas/avaliar
+Content-Type: application/json
+
+{ "latitude": -23.5874, "longitude": -46.6576 }
+
+### 3. Ocorrências próximas (mapa de calor)
+GET {{base}}/api/ocorrencias/proximas?latitude=-23.5503&longitude=-46.6340&raioMetros=500
+
+### 4. Registrar nova ocorrência colaborativa
+POST {{base}}/api/ocorrencias
+Content-Type: application/json
+
+{ "tipo": "FURTO", "latitude": -23.5612, "longitude": -46.6561, "descricao": "Furto no ponto de ônibus", "usuarioId": 1 }
+
+### 5. Acionar a hora de ouro (celular do usuário demo foi roubado)
+POST {{base}}/api/incidentes
+Content-Type: application/json
+
+{ "dispositivoId": 1, "tipo": "ROUBO", "latitude": -23.5614, "longitude": -46.6559, "descricao": "Abordado por ciclista" }
+
+### 6. Concluir o 1º passo do checklist (use os ids retornados acima)
+PATCH {{base}}/api/incidentes/1/passos/1/concluir
+
+### 7. Consultar progresso e tempo restante
+GET {{base}}/api/incidentes/1
+
+### 8. Consulta pública de IMEI
+GET {{base}}/api/dispositivos/imei/490154203237518
+
+### 9. Erro de validação (IMEI inválido)
+POST {{base}}/api/dispositivos
+Content-Type: application/json
+
+{ "usuarioId": 1, "marca": "Motorola", "modelo": "G84", "imei": "490154203237519" }
